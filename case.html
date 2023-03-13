@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color : gray">
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th {
+        background-color: #ccc;
+    }
+
+</style>
+<h1 style="background-color: darkgray">QUẢN LÍ HỌC SINH</h1>
+<form >
+<table>
+    <tr>
+        <th>Mã Sinh Viên</th>
+        <th>Họ Và Tên</th>
+        <th>Lớp Học</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td><input type="text" id="maSinhVien" placeholder="Mã Sinh Viên" ></td>
+        <td><input type="text" id="hoVaTen" placeholder="Họ Và Tên"></td>
+        <td><input type="text" id="lopHoc" placeholder="Lớp Học"></td>
+        <td>
+            <button type = "button"  onclick="checker()">THÊM</button>
+        </td>
+    </tr>
+
+</table>
+</form>
+<br>
+<br>
+<hr/>
+
+<p id="demo"></p>
+
+</body>
+</html>
+<script>
+    class Student {
+        constructor(maSinhVien, hoVaTen, lopHoc) {
+            this.maSinhVien = maSinhVien;
+            this.hoVaTen = hoVaTen;
+            this.lopHoc = lopHoc;
+        }
+
+        getMaSinhVien() {
+            return this.maSinhVien;
+        }
+
+        getHoVaTen() {
+            return this.hoVaTen;
+        }
+
+        getLopHoc() {
+            return this.lopHoc;
+        }
+
+        setMaSinhVien(maSinhVien) {
+            this.maSinhVien = maSinhVien;
+        }
+
+        setHoVaTen(hoVaTen) {
+            this.hoVaTen = hoVaTen;
+        }
+
+        setLopHoc(lopHoc) {
+            this.lopHoc = lopHoc;
+        }
+    }
+
+    studentList = [];
+    studentListData = [];
+
+    function checker() {
+        let myStudent = new Student();
+        myStudent.setMaSinhVien(document.getElementById("maSinhVien").value);
+        myStudent.setHoVaTen(document.getElementById("hoVaTen").value);
+        myStudent.setLopHoc(document.getElementById("lopHoc").value);
+
+        let maSinhVien = myStudent.getMaSinhVien();
+        let hoVaTen = myStudent.getHoVaTen();
+        let lopHoc = myStudent.getLopHoc();
+
+        studentList.push(`<table> <tr><th> MÃ SINH VIÊN : ${maSinhVien}</th> <th> HỌ VÀ TÊN : ${hoVaTen}</th><th> LỚP HỌC : ${lopHoc}</th></tr> </table>`);
+        studentListData.push(myStudent);
+        document.getElementById("demo").innerHTML = display();
+        document.getElementById("maSinhVien").value = '';
+        document.getElementById("hoVaTen").value = '';
+        document.getElementById("lopHoc").value = '';
+    }
+
+    function display() {
+        let e = "";
+        for (let i = 0; i < studentList.length; i++) {
+            e += `HỌC SINH  :${i} <p><table>${studentList[i]}<tr> <th><button onclick="edit(${i})">Edit</button> <button onclick="deleteProduct(${i})">Delete</button></th></tr> </table> </p> `
+        }
+        return e;
+    }
+    function edit(i) {
+        let student = studentListData[i];
+        console.log(student)
+        student.setMaSinhVien(prompt("Nhập mã sinh viên"));
+        student.setHoVaTen(prompt("Nhập họ và tên"));
+        student.setLopHoc(prompt("Nhập lớp học"));
+
+        studentList[i] = `<table> <tr><th> MÃ SINH VIÊN : ${student.getMaSinhVien()}</th> <th> HỌ VÀ TÊN : ${student.getHoVaTen()}</th><th> LỚP HỌC : ${student.getLopHoc()}</th></tr> </table>`;
+        document.getElementById("demo").innerHTML = display();
+    }
+
+    function deleteProduct(i) {
+        studentList.splice(i, 1);
+        studentListData.splice(i,1);
+        document.getElementById("demo").innerHTML = display();
+    }
+
+
+</script>
